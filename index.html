@@ -7,11 +7,11 @@
 <style>
 body {
   margin: 0;
-  height: 100vh;
+  min-height: 100vh;
   background: #0f172a;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .container {
@@ -27,6 +27,10 @@ img, video {
   height: 100%;
   object-fit: contain;
   border-radius: 12px;
+}
+
+video {
+  cursor: pointer;
 }
 
 /* esconder */
@@ -64,7 +68,7 @@ img, video {
   <img id="inicio" src="inicio.png" onclick="iniciar()">
 
   <!-- vídeo -->
-  <video id="video" class="escondido" playsinline preload="auto">
+  <video id="video" class="escondido" playsinline muted preload="auto">
     <source src="animacao.mp4" type="video/mp4">
   </video>
 
@@ -76,7 +80,8 @@ img, video {
      target="_blank"
      class="botao botao1 escondido" id="link1"></a>
 
-  <a href="https://wa.me/5511984510829?text=Confirmamos%20presen%C3%A7a%20no%20anivers%C3%A1rio%20da%20Gabi!" target="_blank"
+  <a href="https://wa.me/5511984510829?text=Confirmamos%20presen%C3%A7a%20no%20anivers%C3%A1rio%20da%20Gabi!" 
+     target="_blank"
      class="botao botao2 escondido" id="link2"></a>
 
 </div>
@@ -95,13 +100,14 @@ function iniciar() {
   inicio.classList.add("escondido");
   video.classList.remove("escondido");
 
+  video.pause();
   video.currentTime = 0;
+  video.muted = true;
 
-  // IMPORTANTE: força play corretamente
-  video.muted = true; // necessário para autoplay funcionar
   video.play().catch(() => {
-    alert("Clique novamente para iniciar o vídeo");
-    clicado = false;
+    setTimeout(() => {
+      video.play();
+    }, 300);
   });
 
   video.onended = () => {
