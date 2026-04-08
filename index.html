@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Convite Interativo</title>
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: #0f172a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  aspect-ratio: 908 / 1280;
+  height: 90vh;
+  max-width: 100vw;
+  position: relative;
+}
+
+img, video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+/* esconder */
+.escondido {
+  display: none;
+}
+
+/* botões */
+.botao {
+  position: absolute;
+  width: 22%;
+  height: 10%;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.botao1 {
+  left: 18%;
+  bottom: 22%;
+}
+
+.botao2 {
+  right: 18%;
+  bottom: 22%;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- capa -->
+  <img id="inicio" src="inicio.png" onclick="iniciar()">
+
+  <!-- vídeo -->
+  <video id="video" class="escondido" playsinline preload="auto">
+    <source src="animacao.mp4" type="video/mp4">
+  </video>
+
+  <!-- final -->
+  <img id="final" class="escondido" src="final.png">
+
+  <!-- botões -->
+  <a href="https://wa.me/5511984510829?text=Confirmamos%20presen%C3%A7a%20no%20anivers%C3%A1rio%20da%20Gabi!" 
+     target="_blank"
+     class="botao botao1 escondido" id="link1"></a>
+
+  <a href="https://seulink2.com" target="_blank"
+     class="botao botao2 escondido" id="link2"></a>
+
+</div>
+
+<script>
+let clicado = false;
+
+function iniciar() {
+  if (clicado) return;
+  clicado = true;
+
+  const inicio = document.getElementById("inicio");
+  const video = document.getElementById("video");
+  const final = document.getElementById("final");
+
+  inicio.classList.add("escondido");
+  video.classList.remove("escondido");
+
+  video.currentTime = 0;
+
+  // IMPORTANTE: força play corretamente
+  video.muted = true; // necessário para autoplay funcionar
+  video.play().catch(() => {
+    alert("Clique novamente para iniciar o vídeo");
+    clicado = false;
+  });
+
+  video.onended = () => {
+    video.classList.add("escondido");
+    final.classList.remove("escondido");
+
+    document.getElementById("link1").classList.remove("escondido");
+    document.getElementById("link2").classList.remove("escondido");
+  };
+}
+</script>
+
+</body>
+</html>
